@@ -4,13 +4,17 @@ from __future__ import unicode_literals
 
 AUTHOR = u'JW'
 SITENAME = u'JW\'s Site'
-SITEURL = ''
-
+# SITEURL = 'http://wjidea.github.io'
+THEME = 'pelican-cait'
 PATH = 'content'
-
+PAGE_PATH = '/content/pages'
+DISPLAY_PAGES_ON_MENU = True
 TIMEZONE = 'America/Detroit'
-
+DATE_FORMAT = { 'en': '%d %m %Y'}
+DEFAULT_DATE_FORMAT = '%d %m %Y'
 DEFAULT_LANG = u'en'
+
+ARTICLE_PATHS = ['posts']
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -33,3 +37,7 @@ DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
+USE_FOLDER_AS_CATEGORY = True
+DISPLAY_PAGES_ON_MENU = True
+LOAD_CONTENT_CACHE = False
+
