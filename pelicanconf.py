@@ -3,18 +3,39 @@
 from __future__ import unicode_literals
 
 AUTHOR = u'JW'
-SITENAME = u'JW\'s Site'
+SITENAME = u'bitBio'
 # SITEURL = 'http://wjidea.github.io'
-THEME = 'pelican-cait'
+THEME = '/Users/wjidea/OneDrive/ghpages/theme/pelican-cait'
 PATH = 'content'
-PAGE_PATH = '/content/pages'
-DISPLAY_PAGES_ON_MENU = True
-TIMEZONE = 'America/Detroit'
-DATE_FORMAT = { 'en': '%d %m %Y'}
-DEFAULT_DATE_FORMAT = '%d %m %Y'
-DEFAULT_LANG = u'en'
-
+STATIC_PATHS = ['posts', 'files'] # what is this PATH for???
 ARTICLE_PATHS = ['posts']
+ARTICLE_SAVE_AS = '{date:%Y}/{slug}.html'
+ARTICLE_URL = '{date:%Y}/{slug}.html'
+PAGE_PATH = ['content/pages','content']
+
+# TIME and DATYE
+TIMEZONE = 'America/Detroit'
+DEFAULT_DATE = 'fs'
+DATE_FORMAT = { 'en': '%m %d %Y'}
+# DEFAULT_DATE_FORMAT = '%m %d %Y'
+DEFAULT_LANG = u'en'
+SUMMARY_MAX_LENGTH = 50
+
+
+USE_CUSTOM_MENU = True
+CUSTOM_MENUITEMS = [
+			  ('Home', '#'),
+			  ('Blog', 'category/article.html'),
+              ('Contact', 'pages/contact.html'),
+              ('CV','files/CV-Wang_noRef.pdf')]
+
+# CONTACT
+CONTACT_EMAIL = "wjidea@gmail.com"
+CONTACTS = (('twitter', 'https://twitter.com/wjidea'),
+			('github', 'https://github.com/wjidea'),
+			('facebook', 'https://facebook.com/wjidea'),
+			('linkedin','https://www.linkedin.com/in/wjidea'))
+
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -24,20 +45,21 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
-
+LINKS = (('Pelican', 'http://getpelican.com/'))
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
+SOCIAL = (('twitter', 'https://twitter.com/wjidea'),
+          ('github-alt', 'https://github.com/wjidea'),
+          ('facebook', 'https://facebook.com/wjidea'),
+          ('weibo', 'https://weibo.com/u/1733966500'),
+          ('linkedin','https://www.linkedin.com/in/wjidea'))
+
+DISQUS_SITENAME='bitbio.disqus.com'
 
 DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
 USE_FOLDER_AS_CATEGORY = True
-DISPLAY_PAGES_ON_MENU = True
+DISPLAY_PAGES_ON_MENU = False
 LOAD_CONTENT_CACHE = False
 
