@@ -14,7 +14,9 @@ Here below are the list of softwares I found to be very handy for applied bioinf
 - [egglib](http://egglib.sourceforge.net/) - powerful tools for population genetics and genomics data analysis
 - [Roary](http://sanger-pathogens.github.io/Roary/) - tool for pan-core genome study (bacteria primarily)
 - [Prodigal](http://prodigal.ornl.gov/) - is bacterial genome annotation tool, which works seamlessly with Roary.
-- [ete](http://etetoolkit.org/) - a nice phylogenomics tool kit with API to python 
+- [ete](http://etetoolkit.org/) - a nice phylogenomics tool kit with API to python
+- [Bioconda](https://bioconda.github.io/) bioinfo software package manager and environmental manager
+- [d-maps](http://d-maps.com/index.php?lang=en) high quality map images, multiple format supported
 - To be continued
 
 

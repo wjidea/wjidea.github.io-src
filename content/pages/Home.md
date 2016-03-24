@@ -7,5 +7,7 @@ save_as: index.html
 
 <center>Here are some keywords to decribe my work and this blog:  
 - Computer: Linux, Python, R, Shell, and SQL  
-- Lab: Population genetics, Genomics, and Evolution  
+- Lab: Population genetics, Genomics, and Evolution
 </center>
+
+<center>01100010 01101001 01110100 01000010 01101001 01101111</center>
