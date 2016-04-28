@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>bitBio</title><link href="http://wjidea.github.io/" rel="alternate"></link><link href="http://wjidea.github.io/feeds/article.atom.xml" rel="self"></link><id>http://wjidea.github.io/</id><updated>2016-04-28T00:00:00-04:00</updated><entry><title>Making maps in R</title><link href="http://wjidea.github.io/2016/rMaps.html" rel="alternate"></link><updated>2016-04-28T00:00:00-04:00</updated><author><name>JW</name></author><id>tag:wjidea.github.io,2016-04-28:2016/rMaps.html</id><summary type="html">&lt;p&gt;I have been wokring on my population genetics project. One of the main thing is to plot the data in the context of the sampling locations. I have been searching all different kinds of solutions. One of the best for my application was to use the packages: maps, mapplots. &lt;/p&gt;
+&lt;p&gt;Below are my R code for plotting the partial US and Argentina maps. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;#! r code&lt;/span&gt;
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;mapplots&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;maps&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;mapdata&lt;span class="p"&gt;)&lt;/span&gt;
+
+par&lt;span class="p"&gt;(&lt;/span&gt;mar &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="m"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; mfrow &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="c1"&gt;# prepare color from STRUCTURE and convert them into alpha .8&lt;/span&gt;
+&lt;span class="c1"&gt;# color order: C1=Blue, C2=Purple&lt;/span&gt;
+structureCol &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#0099e6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#800080&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#ff004d&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#339933&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+structureCol &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; adjustcolor&lt;span class="p"&gt;(&lt;/span&gt;structureCol&lt;span class="p"&gt;,&lt;/span&gt; alpha &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# read structure CLUMMP data along with GPS coordinates&lt;/span&gt;
+struGpsData &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; read.table&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;data/raw/struGPS.txt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; header&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; sep&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;\t&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# set radius size&lt;/span&gt;
+&lt;span class="kr"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;i &lt;span class="kr"&gt;in&lt;/span&gt; struGpsData&lt;span class="o"&gt;$&lt;/span&gt;Pop&lt;span class="p"&gt;){&lt;/span&gt;
+  subData &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;struGpsData&lt;span class="p"&gt;,&lt;/span&gt; Pop&lt;span class="o"&gt;==&lt;/span&gt;i&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;subData&lt;span class="o"&gt;$&lt;/span&gt;PopSize &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    struGpsData&lt;span class="o"&gt;$&lt;/span&gt;popRadius&lt;span class="p"&gt;[&lt;/span&gt;i&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;0.35&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kr"&gt;else&lt;/span&gt; &lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;subData&lt;span class="o"&gt;$&lt;/span&gt;PopSize &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;PopSize &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    struGpsData&lt;span class="o"&gt;$&lt;/span&gt;popRadius&lt;span class="p"&gt;[&lt;/span&gt;i&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kr"&gt;else&lt;/span&gt; &lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;subData&lt;span class="o"&gt;$&lt;/span&gt;PopSize &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;PopSize &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="m"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    struGpsData&lt;span class="o"&gt;$&lt;/span&gt;popRadius&lt;span class="p"&gt;[&lt;/span&gt;i&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kr"&gt;else&lt;/span&gt; &lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;subData&lt;span class="o"&gt;$&lt;/span&gt;PopSize &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;20&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;PopSize &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="m"&gt;55&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    struGpsData&lt;span class="o"&gt;$&lt;/span&gt;popRadius&lt;span class="p"&gt;[&lt;/span&gt;i&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;0.9&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kr"&gt;else&lt;/span&gt; &lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;subData&lt;span class="o"&gt;$&lt;/span&gt;PopSize &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;55&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    struGpsData&lt;span class="o"&gt;$&lt;/span&gt;popRadius&lt;span class="p"&gt;[&lt;/span&gt;i&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;1.2&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# plot Argentina and pie chart&lt;/span&gt;
+argStruData &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; struGpsData&lt;span class="p"&gt;[&lt;/span&gt;struGpsData&lt;span class="o"&gt;$&lt;/span&gt;country &lt;span class="o"&gt;%in%&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Arg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),]&lt;/span&gt;
+map&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;world&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;argentina&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;mar&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kp"&gt;rep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;boundary&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kr"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;i &lt;span class="kr"&gt;in&lt;/span&gt; argStruData&lt;span class="o"&gt;$&lt;/span&gt;Pop&lt;span class="p"&gt;){&lt;/span&gt;
+  subData &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;argStruData&lt;span class="p"&gt;,&lt;/span&gt; Pop&lt;span class="o"&gt;==&lt;/span&gt;i&lt;span class="p"&gt;)&lt;/span&gt;
+  zValues &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;subData&lt;span class="o"&gt;$&lt;/span&gt;C1&lt;span class="p"&gt;,&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;C2&lt;span class="p"&gt;,&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;C3&lt;span class="p"&gt;,&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;C4&lt;span class="p"&gt;)&lt;/span&gt;
+  xLong &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;longitude
+  yLati &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;latitude
+  &lt;span class="c1"&gt;# add pie chart to map&lt;/span&gt;
+  add.pie&lt;span class="p"&gt;(&lt;/span&gt;z&lt;span class="o"&gt;=&lt;/span&gt;zValues&lt;span class="p"&gt;,&lt;/span&gt; x&lt;span class="o"&gt;=&lt;/span&gt;xLong&lt;span class="p"&gt;,&lt;/span&gt; y&lt;span class="o"&gt;=&lt;/span&gt;yLati&lt;span class="p"&gt;,&lt;/span&gt; col&lt;span class="o"&gt;=&lt;/span&gt;structureCol&lt;span class="p"&gt;,&lt;/span&gt; labels&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;NA&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+          radius&lt;span class="o"&gt;=&lt;/span&gt;subData&lt;span class="o"&gt;$&lt;/span&gt;popRadius&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# plot US midwest &lt;/span&gt;
+usStruData &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; struGpsData&lt;span class="p"&gt;[&lt;/span&gt;struGpsData&lt;span class="o"&gt;$&lt;/span&gt;country &lt;span class="o"&gt;%in%&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;USA&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;CAN&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),]&lt;/span&gt;
+map&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;state&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; xlim&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;-105&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;-76&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; boundary&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; mar&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kp"&gt;rep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="c1"&gt;# Draw pie plot in US map&lt;/span&gt;
+&lt;span class="kr"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;i &lt;span class="kr"&gt;in&lt;/span&gt; usStruData&lt;span class="o"&gt;$&lt;/span&gt;Pop&lt;span class="p"&gt;){&lt;/span&gt;
+  subData &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;usStruData&lt;span class="p"&gt;,&lt;/span&gt; Pop&lt;span class="o"&gt;==&lt;/span&gt;i&lt;span class="p"&gt;)&lt;/span&gt;
+  zValues &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;subData&lt;span class="o"&gt;$&lt;/span&gt;C1&lt;span class="p"&gt;,&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;C2&lt;span class="p"&gt;,&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;C3&lt;span class="p"&gt;,&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;C4&lt;span class="p"&gt;)&lt;/span&gt;
+  xLong &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;longitude
+  yLati &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; subData&lt;span class="o"&gt;$&lt;/span&gt;latitude
+  &lt;span class="c1"&gt;# add pie chart to map&lt;/span&gt;
+  add.pie&lt;span class="p"&gt;(&lt;/span&gt;z&lt;span class="o"&gt;=&lt;/span&gt;zValues&lt;span class="p"&gt;,&lt;/span&gt; x&lt;span class="o"&gt;=&lt;/span&gt;xLong&lt;span class="p"&gt;,&lt;/span&gt; y&lt;span class="o"&gt;=&lt;/span&gt;yLati&lt;span class="p"&gt;,&lt;/span&gt; col&lt;span class="o"&gt;=&lt;/span&gt;structureCol&lt;span class="p"&gt;,&lt;/span&gt; labels&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;NA&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+          radius&lt;span class="o"&gt;=&lt;/span&gt;subData&lt;span class="o"&gt;$&lt;/span&gt;popRadius&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="R"></category><category term="GIS"></category><category term="map"></category></entry><entry><title>Bioinformatics related _Python_ modules</title><link href="http://wjidea.github.io/2016/pybiomodule.html" rel="alternate"></link><updated>2016-04-26T00:00:00-04:00</updated><author><name>JW</name></author><id>tag:wjidea.github.io,2016-04-26:2016/pybiomodule.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://bitbucket.org/james_taylor/bx-python/wiki/Home"&gt;bx-python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/chapmanb/bcbb"&gt;bcbb&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/chapmanb/bcbio-nextgen"&gt;bcbio-nextgen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://bioconda.github.io/"&gt;bioconda&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://pyvcf.readthedocs.org/"&gt;PyVCF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://scikit-learn.org/stable/"&gt;SciKit-Learn&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="bioinformatics"></category><category term="python"></category></entry><entry><title>Compile Bio++ and install egglib on Ubuntu 14.04 LTS</title><link href="http://wjidea.github.io/2016/installEgglib.html" rel="alternate"></link><updated>2016-03-12T00:00:00-05:00</updated><author><name>JW</name></author><id>tag:wjidea.github.io,2016-03-12:2016/installEgglib.html</id><summary type="html">&lt;p&gt;I didn't find it difficult to install or compile the egglib module on Linux, when I first come to use egglib in python. However, things changed my mind when I was trying to use the internal function Align.polymorphismBPP(), which is a function that depends on the Bio++ library supoort. Somehow, I didn't install the C++ module correctly in the beginning, thus now I need to pay the price. &lt;/p&gt;
+&lt;p&gt;Before we get into the installation, we need to make sure the pre-requisites by egglib and my local platform configuration.&lt;/p&gt;
+&lt;h4&gt;This tutorial was test on my platform:&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Ubuntu Linux 14.04LTS&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://environmentalomics.org/bio-linux-installation/"&gt;Bio-Linux&lt;/a&gt; installed&lt;/li&gt;
+&lt;li&gt;Python 2.7.6&lt;/li&gt;
+&lt;li&gt;GCC 4.8.2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Pre-requisites:&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;cmake:  &lt;code&gt;sudo apt-get install cmake&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;doxygen:  &lt;code&gt;sudo apt-get install doxygen&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://biopp.univ-montp2.fr/wiki/index.php/Installation#Ubuntu.2FDebian_packages"&gt;Bio++&lt;/a&gt;'s install will be elaborated below&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Install dependencies&lt;/h3&gt;
+&lt;p&gt;For egglib-cpp module, you will only need to the three libraries from Bio++: &lt;strong&gt;bpp-core&lt;/strong&gt;, &lt;strong&gt;bpp-seq&lt;/strong&gt;, and &lt;strong&gt;bpp-popgen&lt;/strong&gt;. Keep this mind. I need to mention here, I downloaded everything in the download directory on my server. I am running all the code on an admin account, I ran everything using sudo to get root privilege. &lt;/p&gt;
+&lt;p&gt;1.Update and upgrade system apps  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    sudo apt-get upgrade
+    sudo apt-get update
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;2.Download installation files from Bio++&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    mkdir ~/download/bpp
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/download/bpp
+    wget http://biopp.univ-montp2.fr/repos/sources/bpp-core-2.2.0.tar.gz
+    wget http://biopp.univ-montp2.fr/repos/sources/bpp-seq-2.2.0.tar.gz
+    wget http://biopp.univ-montp2.fr/repos/sources/bpp-popgen-2.2.0.tar.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;3.Unzip tar files:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    tar xzvf bpp-core-2.2.0.tar.gz  
+    tar xzvf bpp-seq-2.2.0.tar.gz  
+    tar xzvf bpp-popgen-2.2.0.tar.gz  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;4.Compile each module. Make sure you don't have any errors when you try to run the make command&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/download/bpp/bpp-core-2.2.0
+    cmake -DCMAKE_INSTALL_PREFIX&lt;span class="o"&gt;=&lt;/span&gt;/usr/local
+    make &lt;span class="c"&gt;# make sure no errors, but warnings should be fine&lt;/span&gt;
+    make install
+
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ../bpp-seq-2.2.0
+    cmake -DCMAKE_INSTALL_PREFIX&lt;span class="o"&gt;=&lt;/span&gt;/usr/local
+    make
+    make install
+
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ../bpp-pop-2.2.0
+    cmake -DCMAKE_INSTALL_PREFIX&lt;span class="o"&gt;=&lt;/span&gt;/usr/local
+    make
+    make install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;5.Install linux dependencies for egglib-py. If you already installed the Bio-linux, most of the packages below should be already installed in your system. Just in case, I listed all the dependencies, install them as needed.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;gsl - GNU Scientific Library: &lt;code&gt;sudo apt-get install libgsl0ldbl&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;clustalw&lt;/li&gt;
+&lt;li&gt;muscle&lt;/li&gt;
+&lt;li&gt;paml&lt;/li&gt;
+&lt;li&gt;phyml&lt;/li&gt;
+&lt;li&gt;primer3&lt;/li&gt;
+&lt;li&gt;phylip&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Install egglib&lt;/h3&gt;
+&lt;p&gt;Obtain most recent version of egglib from &lt;a href="https://sourceforge.net/projects/egglib/"&gt;sourceforge-egglib&lt;/a&gt;. You will need download two files for this tutorial:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;egglib-cpp-2.x.xx.tar.gz&lt;/li&gt;
+&lt;li&gt;egglib-py-2.x.xx.tar.gz&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Compile the cpp package:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;tar xvzf egglib-cpp-2.1.1.tar.gz
+tar xvzf egglib-py-2.1.1.tar.gz
+&lt;span class="nb"&gt;cd &lt;/span&gt;egglib-cpp-2.1.11
+./configure
+make
+make install
+
+&lt;span class="nb"&gt;cd&lt;/span&gt; ../egglib-py-2.1.11
+sudo python setup.py build
+sudo python setup.py install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Test egglib installation&lt;/h3&gt;
+&lt;p&gt;confirm your egglib was installed correctly&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Python 2.7.6 &lt;span class="o"&gt;(&lt;/span&gt;default, Jun &lt;span class="m"&gt;22&lt;/span&gt; 2015, 17:58:13&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt;GCC 4.8.2&lt;span class="o"&gt;]&lt;/span&gt; on linux2
+Type &lt;span class="s2"&gt;&amp;quot;help&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;copyright&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;credits&amp;quot;&lt;/span&gt; or &lt;span class="s2"&gt;&amp;quot;license&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; more information.
+&amp;gt;&amp;gt;&amp;gt; import egglib
+&amp;gt;&amp;gt;&amp;gt; quit&lt;span class="o"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;References&lt;/h3&gt;
+&lt;p&gt;This tutorial was built based on the resources available online:&lt;/p&gt;
+&lt;p&gt;[1]. &lt;a href="http://pmagwene.github.io/blog/2013/02/06/building-bio-plus-plus-and-egglib/"&gt;Building Bio++ and Egglib From Source&lt;/a&gt; &lt;/p&gt;
+&lt;p&gt;[2]. &lt;a href="http://maojf.blogspot.com/2012/09/tips-on-installing-egglib-on-linux.html"&gt;tips on installing EggLib on linux&lt;/a&gt;&lt;/p&gt;</summary><category term="python"></category><category term="bioinformatics"></category><category term="tutorials"></category></entry><entry><title>Good and useful bioinfomatics tools</title><link href="http://wjidea.github.io/2016/goodPackages.html" rel="alternate"></link><updated>2016-03-10T00:00:00-05:00</updated><author><name>JW</name></author><id>tag:wjidea.github.io,2016-03-10:2016/goodPackages.html</id><summary type="html">&lt;p&gt;Here below are the list of softwares I found to be very handy for applied bioinformatics. Most of the tools I listed here are open-source program.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://wasabiapp.org/software/prank/"&gt;PRANK&lt;/a&gt; - Codon sequence alignment&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://mafft.cbrc.jp/alignment/software/"&gt;MAFFT&lt;/a&gt; - Multiple sequence alignment, similar performance to &lt;a href="http://www.drive5.com/muscle/downloads.htm"&gt;MUSCLE&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://egglib.sourceforge.net/"&gt;egglib&lt;/a&gt; - powerful tools for population genetics and genomics data analysis&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://sanger-pathogens.github.io/Roary/"&gt;Roary&lt;/a&gt; - tool for pan-core genome study (bacteria primarily)&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://prodigal.ornl.gov/"&gt;Prodigal&lt;/a&gt; - is bacterial genome annotation tool, which works seamlessly with Roary.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://etetoolkit.org/"&gt;ete&lt;/a&gt; - a nice phylogenomics tool kit with API to python&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://bioconda.github.io/"&gt;Bioconda&lt;/a&gt; bioinfo software package manager and environmental manager&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://d-maps.com/index.php?lang=en"&gt;d-maps&lt;/a&gt; high quality map images, multiple format supported&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.bioconductor.org"&gt;R-Bioconductor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;To be continued&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="bioinformatics"></category><category term="Python"></category></entry><entry><title>Population genetics simulation in Python</title><link href="http://wjidea.github.io/2016/popSim.html" rel="alternate"></link><updated>2016-03-09T00:00:00-05:00</updated><author><name>JW</name></author><id>tag:wjidea.github.io,2016-03-09:2016/popSim.html</id><summary type="html">&lt;p&gt;A python script writen in OOP style to simulate population genetic dfrit and spontaneous mutation. Microsatellite markers were used as a surrogate to calculate genetic diversity across time/generations. &lt;/p&gt;
+&lt;p&gt;This script is also part of the project for the MSU &lt;a href="http://alproductions.us/CSE801/"&gt;CSE801&lt;/a&gt; class. &lt;/p&gt;
+&lt;script src="https://gist.github.com/wjidea/b9d55b67cfed54517a54.js"&gt;&lt;/script&gt;</summary><category term="bioinformatics"></category></entry><entry><title>Pan-Core Genome Pipeline (Part I)</title><link href="http://wjidea.github.io/2016/bacpan1.html" rel="alternate"></link><updated>2016-03-08T00:00:00-05:00</updated><author><name>JW</name></author><id>tag:wjidea.github.io,2016-03-08:2016/bacpan1.html</id><summary type="html">&lt;p&gt;Parallel&lt;br /&gt;
+- &lt;a href="https://www.youtube.com/watch?v=OpaiGYxkSuQ"&gt;How to use Parallel (video)&lt;/a&gt;&lt;br /&gt;
+- &lt;a href="http://www.gnu.org/software/parallel/parallel_tutorial.html"&gt;Tutorial Document&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;FASTQC
+`
+    #!/bin/bash
+    #this file is to run fastqc&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;#run paralell
+#-j indicates run as many jobs as possible
+#+0 indicates add 0 job to cpu core(s)
+ls *.gz | time parallel -j+0 --eta &amp;#39;fastqc {}&amp;#39;`
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Trimmomatic&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;TRIM_PATH=&amp;#39;/home/wjidea/apps/Trimmomatic-0.32/trimmomatic-0.32.jar&amp;#39;`
+
+RAW_SEQ=&amp;#39;/home/wjidea/Files/Turf_bac_rawseq/20130608_DNASeq_PE/raw_seqs&amp;#39;
+ADAPTER=&amp;#39;/home/wjidea/apps/Trimmomatic-0.32/adapters/TruSeq3-PE-2.fa&amp;#39;
+FWPE=&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;%%.&lt;/span&gt;&lt;span class="n"&gt;fastq&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;.PE.fq.gz
+FWSE=&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;%%.&lt;/span&gt;&lt;span class="n"&gt;fastq&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;.SE.fq.gz
+RVPE=&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;%%.&lt;/span&gt;&lt;span class="n"&gt;fastq&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;.PE.fq.gz
+RVSE=&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;%%.&lt;/span&gt;&lt;span class="n"&gt;fastq&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;.SE.fq.gz
+java -jar &lt;span class="nv"&gt;$TRIM_PATH&lt;/span&gt; PE $1 $2 &lt;span class="nv"&gt;$FWPE&lt;/span&gt; &lt;span class="nv"&gt;$FWSE&lt;/span&gt; &lt;span class="nv"&gt;$RVPE&lt;/span&gt; &lt;span class="nv"&gt;$RVSE&lt;/span&gt; ILLUMINACLIP:&lt;span class="nv"&gt;$ADAPTER&lt;/span&gt;:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36`
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;FASTx trimmer&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;fastx_trimmer -Q33 -l 70 -i combined.fq | fastq_quality_filter -Q33 -q 30 -p 50 &amp;gt; combined-trim.fq
+fastx_trimmer -Q33 -l 70 -i s1_se | fastq_quality_filter -Q33 -q 30 -p 50 &amp;gt; s1_se.filt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Assembly
+    SPAdes 3.1.0
+Assembly quality check
+    QUAST: Quality Assessment Tool for Genome Assemblies&lt;/p&gt;
+&lt;h3&gt;Another way to make parallel&lt;/h3&gt;
+&lt;p&gt;Split file into small chunks by lines for example, then run each file with the code below to run jobs in parallel, especially when some tasks are not compatible with GNU parallel:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;split -dl 304 big_file suffix
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;for session in gene*;
+ do screen -d -m -S $session ./ext_mFasta2.sh $session;
+done;&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Roary:&lt;/h3&gt;
+&lt;p&gt;CAUTION: roary uses tons of intermediate files to process with the pangenome results data, therefore the parallel is not working for the query_pan_genome function.&lt;/p&gt;
+&lt;h3&gt;other useful codes&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;rename &amp;#39;s/pan_genome_results_//&amp;#39; pan_genome_results_*.fa
+
+parallel -j+0 --eta &amp;#39;muscle -in {} -out {.}.aln&amp;#39; ::: *.fa
+
+parallel -j+0 --eta &amp;#39;trimal -in {} -out {.}.trim.aln -gt 0.8 -st 0.001 -cons 60&amp;#39; ::: *.aln
+
+parallel -j+0 --eta &amp;#39;fasttree -quiet -nopr {} &amp;gt; {.}.tre&amp;#39; ::: *.aln
+
+rename &amp;#39;s/(.{2,}?)\.trim\.tre/$1.tre/&amp;#39; *.trim.tre
+
+parallel -j+0 --eta &amp;#39;coreGenome.R {} {.}.png&amp;#39; ::: *.Rtab
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;TBD ...&lt;/h4&gt;</summary><category term="bioinformatics"></category></entry><entry><title>Build a bioinformatics lab server with a small budget in 2014 (Part1)</title><link href="http://wjidea.github.io/2014/builtServer.html" rel="alternate"></link><updated>2016-03-08T00:00:00-05:00</updated><author><name>JW</name></author><id>tag:wjidea.github.io,2014-08-01:2014/builtServer.html</id><summary type="html">&lt;p&gt;A friend of mine is going to set up a plant pathology lab soon, and he is planning working with some bioinformatics work over there. I am helping him build a lab server with a reasonable price, which in this case was USD1.5k. I plan to use this opportunity to write a blog to document the whole process to share with the potential community.&lt;/p&gt;
+&lt;p&gt;Nowadays, next generation sequencing (NGS) is becoming affordable and approachable to most of the labs. Although many other options are out there for people who want to seek for data computing solutions. But the cheap way for a lab with limited fundings could be a lab-owned server. Now let’s see what we can get with this price, and what’s the performance is gonna be.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Consult for the scope of their research. &lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;At this step, I had a couple of conversation with my friend, who is a pure molecular bacteriologist with limited experience in bioinformatics. From the conversations, I understood the potential applications in his research, and the size of the potential computation loads. After a few rounds of conversation, his requirements and applications are listed below:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Bacterial genome assembly&lt;/li&gt;
+&lt;li&gt;Comparative genomics&lt;/li&gt;
+&lt;li&gt;Transcriptomics with emphasis on genes DE analysis&lt;/li&gt;
+&lt;li&gt;Genomic features annotations&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Based on the requirement, I made a few suggestions on the configuration of the server. First, due to the small size of bacterial genome, the storage of the server is not the first of concern.&lt;/p&gt;</summary><category term="Bioinformatics"></category></entry></feed>

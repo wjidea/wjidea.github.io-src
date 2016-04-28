@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>    Pan-Core Genome Pipeline (Part I)
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+            <link rel="stylesheet" href="http://wjidea.github.io/theme/css/normalize.css">
+        <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://wjidea.github.io/theme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="http://wjidea.github.io/theme/css/main.css">
+
+    <link rel="stylesheet" href="http://wjidea.github.io/theme/css/blog.css">
+    <link rel="stylesheet" href="http://wjidea.github.io/theme/css/github.css">
+        <link href="http://wjidea.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="bitBio Atom Feed" />
+        <script src="http://wjidea.github.io/theme/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="wrapper">
+<header id="sidebar" class="side-shadow">
+    <hgroup id="site-header">
+        <a id="site-title" href="http://wjidea.github.io"><h3><i class="icon-coffee"></i> bitBio</h1></a>
+        <p id="site-desc"></p>
+    </hgroup>
+    <nav>
+        <ul id="nav-links">
+                <li><a href="http://wjidea.github.io/#">Home</a></li>
+                <li><a href="http://wjidea.github.io/category/article.html">Blog</a></li>
+                <li><a href="http://wjidea.github.io/pages/contact.html">Contact</a></li>
+                <li><a href="http://wjidea.github.io/files/researchStatement.pdf">Research</a></li>
+                <li><a href="http://wjidea.github.io/files/CV-Wang_noRef.pdf">CV</a></li>
+        </ul>
+    </nav>
+<footer id="site-info">
+    <p>
+        Proudly powered by <a href="http://getpelican.com/" target="pelican">Pelican</a> and <a href="http://python.org/" target="python">Python</a>. Theme by <a href="https://github.com/hdra/pelican-cait" target="github">hndr</a>.
+    </p>
+    <p>
+    	Maintained by © <a href="http://wangjie.esy.es" target="homepage">Jie Wang</a>
+    </p>
+</footer></header>
+    <div id="post-container">
+        <ol id="post-list">
+            <li>
+                <article class="post-entry">
+                    <header class="entry-header">
+                        <time class="post-time" datetime="2016-03-08T00:00:00-05:00" pubdate>
+                            Tue 08 March 2016
+                        </time>
+                        <a href="http://wjidea.github.io/2016/bacpan1.html" rel="bookmark"><h1>Pan-Core Genome Pipeline (Part I)</h1></a>
+                    </header>
+
+                    <section class="post-content">
+                        <p>Parallel<br />
+- <a href="https://www.youtube.com/watch?v=OpaiGYxkSuQ">How to use Parallel (video)</a><br />
+- <a href="http://www.gnu.org/software/parallel/parallel_tutorial.html">Tutorial Document</a></p>
+<p>FASTQC
+`
+    #!/bin/bash
+    #this file is to run fastqc</p>
+<div class="highlight"><pre>#run paralell
+#-j indicates run as many jobs as possible
+#+0 indicates add 0 job to cpu core(s)
+ls *.gz | time parallel -j+0 --eta &#39;fastqc {}&#39;`
+</pre></div>
+
+
+<p>Trimmomatic</p>
+<div class="highlight"><pre>TRIM_PATH=&#39;/home/wjidea/apps/Trimmomatic-0.32/trimmomatic-0.32.jar&#39;`
+
+RAW_SEQ=&#39;/home/wjidea/Files/Turf_bac_rawseq/20130608_DNASeq_PE/raw_seqs&#39;
+ADAPTER=&#39;/home/wjidea/apps/Trimmomatic-0.32/adapters/TruSeq3-PE-2.fa&#39;
+FWPE=<span class="cp">${</span><span class="mi">1</span><span class="o">%%.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="cp">}</span>.PE.fq.gz
+FWSE=<span class="cp">${</span><span class="mi">1</span><span class="o">%%.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="cp">}</span>.SE.fq.gz
+RVPE=<span class="cp">${</span><span class="mi">2</span><span class="o">%%.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="cp">}</span>.PE.fq.gz
+RVSE=<span class="cp">${</span><span class="mi">2</span><span class="o">%%.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="cp">}</span>.SE.fq.gz
+java -jar <span class="nv">$TRIM_PATH</span> PE $1 $2 <span class="nv">$FWPE</span> <span class="nv">$FWSE</span> <span class="nv">$RVPE</span> <span class="nv">$RVSE</span> ILLUMINACLIP:<span class="nv">$ADAPTER</span>:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36`
+</pre></div>
+
+
+<p>FASTx trimmer</p>
+<div class="highlight"><pre>fastx_trimmer -Q33 -l 70 -i combined.fq | fastq_quality_filter -Q33 -q 30 -p 50 &gt; combined-trim.fq
+fastx_trimmer -Q33 -l 70 -i s1_se | fastq_quality_filter -Q33 -q 30 -p 50 &gt; s1_se.filt
+</pre></div>
+
+
+<p>Assembly
+    SPAdes 3.1.0
+Assembly quality check
+    QUAST: Quality Assessment Tool for Genome Assemblies</p>
+<h3>Another way to make parallel</h3>
+<p>Split file into small chunks by lines for example, then run each file with the code below to run jobs in parallel, especially when some tasks are not compatible with GNU parallel:</p>
+<div class="highlight"><pre>split -dl 304 big_file suffix
+</pre></div>
+
+
+<p><code>for session in gene*;
+ do screen -d -m -S $session ./ext_mFasta2.sh $session;
+done;</code></p>
+<h3>Roary:</h3>
+<p>CAUTION: roary uses tons of intermediate files to process with the pangenome results data, therefore the parallel is not working for the query_pan_genome function.</p>
+<h3>other useful codes</h3>
+<div class="highlight"><pre>rename &#39;s/pan_genome_results_//&#39; pan_genome_results_*.fa
+
+parallel -j+0 --eta &#39;muscle -in {} -out {.}.aln&#39; ::: *.fa
+
+parallel -j+0 --eta &#39;trimal -in {} -out {.}.trim.aln -gt 0.8 -st 0.001 -cons 60&#39; ::: *.aln
+
+parallel -j+0 --eta &#39;fasttree -quiet -nopr {} &gt; {.}.tre&#39; ::: *.aln
+
+rename &#39;s/(.{2,}?)\.trim\.tre/$1.tre/&#39; *.trim.tre
+
+parallel -j+0 --eta &#39;coreGenome.R {} {.}.png&#39; ::: *.Rtab
+</pre></div>
+
+
+<h4>TBD ...</h4>
+                    </section>
+                    <hr/>
+                    <aside class="post-meta">
+                        <p>Category: <a href="http://wjidea.github.io/category/article.html">article</a></p>
+                        <p>Tags: <a href="http://wjidea.github.io/tag/bioinformatics.html">bioinformatics</a>, </p>
+                    </aside>
+                    <hr/>
+<div id="disqus_thread"></div>
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//bitbio.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+                </article>
+            </li>
+        </ol>
+    </div>
+        </div>
+
+        <script src="http://wjidea.github.io/theme/js/main.js"></script>
+    </body>
+</html>

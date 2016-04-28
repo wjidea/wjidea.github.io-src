@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>    Making maps in R
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+            <link rel="stylesheet" href="http://wjidea.github.io/theme/css/normalize.css">
+        <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://wjidea.github.io/theme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="http://wjidea.github.io/theme/css/main.css">
+
+    <link rel="stylesheet" href="http://wjidea.github.io/theme/css/blog.css">
+    <link rel="stylesheet" href="http://wjidea.github.io/theme/css/github.css">
+        <link href="http://wjidea.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="bitBio Atom Feed" />
+        <script src="http://wjidea.github.io/theme/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="wrapper">
+<header id="sidebar" class="side-shadow">
+    <hgroup id="site-header">
+        <a id="site-title" href="http://wjidea.github.io"><h3><i class="icon-coffee"></i> bitBio</h1></a>
+        <p id="site-desc"></p>
+    </hgroup>
+    <nav>
+        <ul id="nav-links">
+                <li><a href="http://wjidea.github.io/#">Home</a></li>
+                <li><a href="http://wjidea.github.io/category/article.html">Blog</a></li>
+                <li><a href="http://wjidea.github.io/pages/contact.html">Contact</a></li>
+                <li><a href="http://wjidea.github.io/files/researchStatement.pdf">Research</a></li>
+                <li><a href="http://wjidea.github.io/files/CV-Wang_noRef.pdf">CV</a></li>
+        </ul>
+    </nav>
+<footer id="site-info">
+    <p>
+        Proudly powered by <a href="http://getpelican.com/" target="pelican">Pelican</a> and <a href="http://python.org/" target="python">Python</a>. Theme by <a href="https://github.com/hdra/pelican-cait" target="github">hndr</a>.
+    </p>
+    <p>
+    	Maintained by © <a href="http://wangjie.esy.es" target="homepage">Jie Wang</a>
+    </p>
+</footer></header>
+    <div id="post-container">
+        <ol id="post-list">
+            <li>
+                <article class="post-entry">
+                    <header class="entry-header">
+                        <time class="post-time" datetime="2016-04-28T00:00:00-04:00" pubdate>
+                            Thu 28 April 2016
+                        </time>
+                        <a href="http://wjidea.github.io/2016/rMaps.html" rel="bookmark"><h1>Making maps in R</h1></a>
+                    </header>
+
+                    <section class="post-content">
+                        <p>I have been wokring on my population genetics project. One of the main thing is to plot the data in the context of the sampling locations. I have been searching all different kinds of solutions. One of the best for my application was to use the packages: maps, mapplots. </p>
+<p>Below are my R code for plotting the partial US and Argentina maps. </p>
+<div class="highlight"><pre><span class="c1">#! r code</span>
+<span class="kn">library</span><span class="p">(</span>mapplots<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>maps<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>mapdata<span class="p">)</span>
+
+par<span class="p">(</span>mar <span class="o">=</span> <span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span> <span class="o">+</span> <span class="m">0.1</span><span class="p">),</span> mfrow <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">))</span>
+<span class="c1"># prepare color from STRUCTURE and convert them into alpha .8</span>
+<span class="c1"># color order: C1=Blue, C2=Purple</span>
+structureCol <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;#0099e6&quot;</span><span class="p">,</span> <span class="s">&quot;#800080&quot;</span><span class="p">,</span><span class="s">&quot;#ff004d&quot;</span><span class="p">,</span><span class="s">&quot;#339933&quot;</span><span class="p">)</span>
+structureCol <span class="o">&lt;-</span> adjustcolor<span class="p">(</span>structureCol<span class="p">,</span> alpha <span class="o">=</span> <span class="m">0.8</span><span class="p">)</span>
+
+<span class="c1"># read structure CLUMMP data along with GPS coordinates</span>
+struGpsData <span class="o">&lt;-</span> read.table<span class="p">(</span><span class="s">&quot;data/raw/struGPS.txt&quot;</span><span class="p">,</span> header<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;\t&quot;</span><span class="p">)</span>
+
+<span class="c1"># set radius size</span>
+<span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> struGpsData<span class="o">$</span>Pop<span class="p">){</span>
+  subData <span class="o">&lt;-</span> <span class="kp">subset</span><span class="p">(</span>struGpsData<span class="p">,</span> Pop<span class="o">==</span>i<span class="p">)</span>
+  <span class="kr">if</span> <span class="p">(</span>subData<span class="o">$</span>PopSize <span class="o">&lt;</span> <span class="m">5</span><span class="p">){</span>
+    struGpsData<span class="o">$</span>popRadius<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">0.35</span><span class="p">}</span>
+  <span class="kr">else</span> <span class="kr">if</span> <span class="p">(</span>subData<span class="o">$</span>PopSize <span class="o">&gt;</span> <span class="m">5</span> <span class="o">&amp;&amp;</span> subData<span class="o">$</span>PopSize <span class="o">&lt;</span> <span class="m">10</span><span class="p">)</span> <span class="p">{</span>
+    struGpsData<span class="o">$</span>popRadius<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">0.5</span><span class="p">}</span>
+  <span class="kr">else</span> <span class="kr">if</span> <span class="p">(</span>subData<span class="o">$</span>PopSize <span class="o">&gt;</span> <span class="m">10</span> <span class="o">&amp;&amp;</span> subData<span class="o">$</span>PopSize <span class="o">&lt;</span> <span class="m">20</span><span class="p">)</span> <span class="p">{</span>
+    struGpsData<span class="o">$</span>popRadius<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">0.6</span><span class="p">}</span>
+  <span class="kr">else</span> <span class="kr">if</span> <span class="p">(</span>subData<span class="o">$</span>PopSize <span class="o">&gt;</span> <span class="m">20</span> <span class="o">&amp;&amp;</span> subData<span class="o">$</span>PopSize <span class="o">&lt;</span> <span class="m">55</span><span class="p">)</span> <span class="p">{</span>
+    struGpsData<span class="o">$</span>popRadius<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">0.9</span><span class="p">}</span>
+  <span class="kr">else</span> <span class="kr">if</span> <span class="p">(</span>subData<span class="o">$</span>PopSize <span class="o">&gt;</span> <span class="m">55</span><span class="p">)</span> <span class="p">{</span>
+    struGpsData<span class="o">$</span>popRadius<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">1.2</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># plot Argentina and pie chart</span>
+argStruData <span class="o">&lt;-</span> struGpsData<span class="p">[</span>struGpsData<span class="o">$</span>country <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;Arg&quot;</span><span class="p">),]</span>
+map<span class="p">(</span><span class="s">&quot;world&quot;</span><span class="p">,</span> <span class="s">&quot;argentina&quot;</span><span class="p">,</span>mar<span class="o">=</span><span class="kp">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">4</span><span class="p">),</span>boundary<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> argStruData<span class="o">$</span>Pop<span class="p">){</span>
+  subData <span class="o">&lt;-</span> <span class="kp">subset</span><span class="p">(</span>argStruData<span class="p">,</span> Pop<span class="o">==</span>i<span class="p">)</span>
+  zValues <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span>subData<span class="o">$</span>C1<span class="p">,</span> subData<span class="o">$</span>C2<span class="p">,</span> subData<span class="o">$</span>C3<span class="p">,</span> subData<span class="o">$</span>C4<span class="p">)</span>
+  xLong <span class="o">&lt;-</span> subData<span class="o">$</span>longitude
+  yLati <span class="o">&lt;-</span> subData<span class="o">$</span>latitude
+  <span class="c1"># add pie chart to map</span>
+  add.pie<span class="p">(</span>z<span class="o">=</span>zValues<span class="p">,</span> x<span class="o">=</span>xLong<span class="p">,</span> y<span class="o">=</span>yLati<span class="p">,</span> col<span class="o">=</span>structureCol<span class="p">,</span> labels<span class="o">=</span><span class="kc">NA</span><span class="p">,</span> 
+          radius<span class="o">=</span>subData<span class="o">$</span>popRadius<span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># plot US midwest </span>
+usStruData <span class="o">&lt;-</span> struGpsData<span class="p">[</span>struGpsData<span class="o">$</span>country <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;USA&quot;</span><span class="p">,</span><span class="s">&quot;CAN&quot;</span><span class="p">),]</span>
+map<span class="p">(</span><span class="s">&quot;state&quot;</span><span class="p">,</span> xlim<span class="o">=</span><span class="kt">c</span><span class="p">(</span><span class="m">-105</span><span class="p">,</span><span class="m">-76</span><span class="p">),</span> boundary<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> mar<span class="o">=</span><span class="kp">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">4</span><span class="p">))</span>
+<span class="c1"># Draw pie plot in US map</span>
+<span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> usStruData<span class="o">$</span>Pop<span class="p">){</span>
+  subData <span class="o">&lt;-</span> <span class="kp">subset</span><span class="p">(</span>usStruData<span class="p">,</span> Pop<span class="o">==</span>i<span class="p">)</span>
+  zValues <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span>subData<span class="o">$</span>C1<span class="p">,</span> subData<span class="o">$</span>C2<span class="p">,</span> subData<span class="o">$</span>C3<span class="p">,</span> subData<span class="o">$</span>C4<span class="p">)</span>
+  xLong <span class="o">&lt;-</span> subData<span class="o">$</span>longitude
+  yLati <span class="o">&lt;-</span> subData<span class="o">$</span>latitude
+  <span class="c1"># add pie chart to map</span>
+  add.pie<span class="p">(</span>z<span class="o">=</span>zValues<span class="p">,</span> x<span class="o">=</span>xLong<span class="p">,</span> y<span class="o">=</span>yLati<span class="p">,</span> col<span class="o">=</span>structureCol<span class="p">,</span> labels<span class="o">=</span><span class="kc">NA</span><span class="p">,</span> 
+          radius<span class="o">=</span>subData<span class="o">$</span>popRadius<span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+                    </section>
+                    <hr/>
+                    <aside class="post-meta">
+                        <p>Category: <a href="http://wjidea.github.io/category/article.html">article</a></p>
+                        <p>Tags: <a href="http://wjidea.github.io/tag/r.html">R</a>, <a href="http://wjidea.github.io/tag/gis.html">GIS</a>, <a href="http://wjidea.github.io/tag/map.html">map</a>, </p>
+                    </aside>
+                    <hr/>
+<div id="disqus_thread"></div>
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//bitbio.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+                </article>
+            </li>
+        </ol>
+    </div>
+        </div>
+
+        <script src="http://wjidea.github.io/theme/js/main.js"></script>
+    </body>
+</html>

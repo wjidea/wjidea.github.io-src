@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>    Compile Bio++ and install egglib on Ubuntu 14.04 LTS-Test
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+            <link rel="stylesheet" href="/theme/css/normalize.css">
+        <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/theme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/theme/css/main.css">
+
+    <link rel="stylesheet" href="/theme/css/blog.css">
+    <link rel="stylesheet" href="/theme/css/github.css">
+        <script src="/theme/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="wrapper">
+<header id="sidebar" class="side-shadow">
+    <hgroup id="site-header">
+        <a id="site-title" href=""><h3><i class="icon-coffee"></i> bitBio</h1></a>
+        <p id="site-desc"></p>
+    </hgroup>
+    <nav>
+        <ul id="nav-links">
+                <li><a href="/#">Home</a></li>
+                <li><a href="/category/article.html">Blog</a></li>
+                <li><a href="/pages/contact.html">Contact</a></li>
+                <li><a href="/files/CV-Wang_noRef.pdf">CV</a></li>
+        </ul>
+    </nav>
+<footer id="site-info">
+    <p>
+        Proudly powered by <a href="http://getpelican.com/" target="pelican">Pelican</a> and <a href="http://python.org/" target="python">Python</a>. Theme by <a href="https://github.com/hdra/pelican-cait" target="github">hndr</a>.
+    </p>
+    <p>
+    	Maintained by © <a href="http://wangjie.esy.es" target="homepage">Jie Wang</a>
+    </p>
+</footer></header>
+    <div id="post-container">
+        <ol id="post-list">
+            <li>
+                <article class="post-entry">
+                    <header class="entry-header">
+                        <time class="post-time" datetime="2016-03-12T00:00:00-05:00" pubdate>
+                            Sat 12 March 2016
+                        </time>
+                        <a href="/2016/Test.html" rel="bookmark"><h1>Compile Bio++ and install egglib on Ubuntu 14.04 LTS-Test</h1></a>
+                    </header>
+
+                    <section class="post-content">
+                        <p>I didn&#39;t find it difficult to install or compile the egglib module on Linux, when I first come to use egglib in python. However, things changed my mind when I was trying to use the internal function Align.polymorphismBPP(), which is a function that depends on the Bio++ library supoort. Somehow, I didn&#39;t install the C++ module correctly in the beginning, thus now I need to pay the price. </p>
+
+<p>Before we get into the installation, we need to make sure the pre-requisites by egglib and my local platform configuration.</p>
+
+<h3 id="toc_0">This tutorial was test on my platform:</h3>
+
+<ul>
+<li>Ubuntu Linux 14.04LTS</li>
+<li><a href="http://environmentalomics.org/bio-linux-installation/">Bio-Linux</a> installed</li>
+<li>Python 2.7.6</li>
+<li>GCC 4.8.2</li>
+</ul>
+
+<h3 id="toc_1">Pre-requisites:</h3>
+
+<ul>
+<li>cmake <code>sudo apt-get install cmake</code></li>
+<li>doxygen <code>sudo apt-get install doxygen</code></li>
+<li><a href="http://biopp.univ-montp2.fr/wiki/index.php/Installation#Ubuntu.2FDebian_packages">Bio++</a>&#39;s install will be elaborated below</li>
+</ul>
+
+<h4 id="toc_2">Compile Bio++</h4>
+
+<p>For egglib-cpp module, you will only need to the three libraries from Bio++: <strong>bpp-core</strong>, <strong>bpp-seq</strong>, and <strong>bpp-popgen</strong>. Keep this mind. I need to mention here, I downloaded everything in the download directory on my server. I am running all the code on an admin account, I ran everything using sudo to get root privilege. </p>
+
+<ol>
+<li><p>Update and upgrade system apps  </p>
+
+<div><pre><code class="language-bash">sudo apt-get upgrade
+sudo apt-get update</code></pre></div></li>
+<li><p>Download installation files from Bio++</p>
+
+<div><pre><code class="language-bash">mkdir ~/download/bpp
+cd ~/download/bpp
+wget http://biopp.univ-montp2.fr/repos/sources/bpp-core-2.2.0.tar.gz
+wget http://biopp.univ-montp2.fr/repos/sources/bpp-seq-2.2.0.tar.gz
+wget http://biopp.univ-montp2.fr/repos/sources/bpp-popgen-2.2.0.tar.gz</code></pre></div></li>
+<li><p>Unzip tar files:</p>
+
+<div><pre><code class="language-bash">tar xzvf bpp-core-2.2.0.tar.gz  
+tar xzvf bpp-seq-2.2.0.tar.gz  
+tar xzvf bpp-popgen-2.2.0.tar.gz  </code></pre></div></li>
+<li><p>Compile each module. Make sure you don&#39;t have any errors when you try to run the make command</p>
+
+<div><pre><code class="language-bash">cd ~/download/bpp/bpp-core-2.2.0
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local
+make # make sure no errors, but warnings should be fine
+make install
+
+cd ../bpp-seq-2.2.0
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local
+make
+make install
+
+cd ../bpp-pop-2.2.0
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local
+make
+make install</code></pre></div></li>
+<li><p>Install linux dependencies for egglib-py. If you already installed the Bio-linux, most of the packages below should be already installed in your system. Just in case, I listed all the dependencies, install them as needed.</p>
+
+<ul>
+<li>gsl - GNU Scientific Library: <code>sudo apt-get install libgsl0ldbl</code></li>
+<li>clustalw</li>
+<li>muscle</li>
+<li>paml</li>
+<li>phyml</li>
+<li>primer3</li>
+<li>phylip</li>
+</ul></li>
+<li></li>
+</ol>
+                    </section>
+                    <hr/>
+                    <aside class="post-meta">
+                        <p>Category: <a href="/category/article.html">article</a></p>
+                        <p>Tags: <a href="/tag/python.html">python</a>, <a href="/tag/bioinformatics.html">bioinformatics</a>, <a href="/tag/tutorials.html">tutorials</a>, </p>
+                    </aside>
+                    <hr/>
+                </article>
+            </li>
+        </ol>
+    </div>
+        </div>
+
+        <script src="/theme/js/main.js"></script>
+    </body>
+</html>
