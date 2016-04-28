@@ -6,7 +6,7 @@ Slug: rMaps
 Template: article
 Status: published
 
-I have been wokring on my population genetics project. One of the main thing is to plot the data in the context of the sampling locations. I have been searching all different kinds of solutions. One of the best for my application was to use the packages: maps, mapplots. 
+I have been working on my population genetics project. One of the main thing is to plot the data in the context of the sampling locations. I have been searching all different kinds of solutions. One of the best for my application was to use the packages: maps, mapplots. 
 
 Below are my R code for plotting the partial US and Argentina maps. 
 
@@ -68,3 +68,16 @@ for (i in usStruData$Pop){
 }
 
 ```
+
+Then you will have the plot like this:
+
+![rMaps](../images/rMaps.png)
+
+
+Other good resources have been found while I was searching solutions for this plot.
+
+- [RMakingMaps - by K Gilbert](http://www.zoology.ubc.ca/~kgilbert/mysite/Miscellaneous_files/R_MakingMaps.pdf)
+- [Molecular Ecologist Post R making Maps](http://www.molecularecologist.com/2012/09/making-maps-with-r/)
+- [Interactive Maps in R](http://rmaps.github.io/)
+- [rworldmap: Mapping Global Data](https://cran.r-project.org/web/packages/rworldmap/index.html)
+

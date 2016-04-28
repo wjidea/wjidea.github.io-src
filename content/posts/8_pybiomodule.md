@@ -1,4 +1,4 @@
-Title: Bioinformatics related _Python_ modules
+Title: Bioinformatics related Python modules
 Category: article
 Date: 04-26-2016
 Tags: bioinformatics, python
