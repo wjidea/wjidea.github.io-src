@@ -6,6 +6,9 @@ Slug: rMaps
 Template: article
 Status: published
 
+
+![rMaps](../images/rMaps.png)
+
 I have been working on my population genetics project. One of the main thing is to plot the data in the context of the sampling locations. I have been searching all different kinds of solutions. One of the best for my application was to use the packages: maps, mapplots. 
 
 Below are my R code for plotting the partial US and Argentina maps. 
@@ -68,10 +71,6 @@ for (i in usStruData$Pop){
 }
 
 ```
-
-Then you will have the plot like this:
-
-![rMaps](../images/rMaps.png)
 
 
 Other good resources have been found while I was searching solutions for this plot.
