@@ -3,6 +3,7 @@ Category: article
 Tags: bioinformatics
 Slug: popSim
 Template: article
+Date: 03-09-2016
 Summary: A python script writen in OOP style to simulate population genetic dfrit and spontaneous mutation. Microsatellite markers were used as a surrogate to calculate genetic diversity across time/generations.  
 
 A python script writen in OOP style to simulate population genetic dfrit and spontaneous mutation. Microsatellite markers were used as a surrogate to calculate genetic diversity across time/generations. 

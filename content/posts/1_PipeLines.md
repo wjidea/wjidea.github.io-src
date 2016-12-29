@@ -2,6 +2,7 @@ Title: Pan-Core Genome Pipeline (Part I)
 Category: article
 Tags: bioinformatics
 Slug: bacpan1
+Date: 03-08-2016
 Template: article
 
 

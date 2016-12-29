@@ -17,6 +17,7 @@ Here below are the list of softwares I found to be very handy for applied bioinf
 - [ete](http://etetoolkit.org/) - a nice phylogenomics tool kit with API to python
 - [Bioconda](https://bioconda.github.io/) bioinfo software package manager and environmental manager
 - [d-maps](http://d-maps.com/index.php?lang=en) high quality map images, multiple format supported
+- [R-Bioconductor](https://www.bioconductor.org)
 - To be continued
 
 
