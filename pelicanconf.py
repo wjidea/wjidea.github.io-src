@@ -26,9 +26,9 @@ USE_CUSTOM_MENU = True
 CUSTOM_MENUITEMS = [
 			  ('Home', '#'),
 			  ('Blog', 'category/article.html'),
-              ('Contact', 'pages/contact.html'),
-              ('Research','files/researchStatement.pdf'),
-              ('CV','files/CV-Wang_noRef.pdf')]
+              ('Contact', 'pages/contact.html')]
+              #('Research','files/researchStatement.pdf'),
+              #('CV','files/CV-Wang_noRef.pdf')]
 
 # CONTACT
 CONTACT_EMAIL = "wjidea@gmail.com"
