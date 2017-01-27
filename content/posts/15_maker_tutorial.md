@@ -1,17 +1,17 @@
-Title: Maker tutorial  
-Category: article  
-Tags: Bioifnormatics  
-Slug: Maker_tutorial  
-Template: article  
-Date: 01-15-2017  
-Status: published
+Title: Maker tutorial
+Category: article
+Tags: Bioifnormatics
+Slug: Maker_tutorial
+Template: article
+Date: 01-15-2017
+Status: draft
 
 
 [![MAKER Logo](http://gmod.org/mediawiki/images/3/37/MAKERLogo.png)]({filename}/posts/15_maker_tutorial.md)
 
 After you have completed a genome assembly, the very next step is  draw a map to tell you where all those elements located in a genome. To do so, genome annotation / gene model prediction a genome an automated fashion seems a obvious solution. There are many genome annotation tools available out there, such as MAKER, EVM, PROKKA, RAST, JGI pipeline, and NCBI genome annotation pipelines. In this article, I am gonna focus on the most popular local solution for your genome annotation - MAKER.
 
-MAKER is developed by Yandell's team located in Univ. of Utah. They have written several tutorial articles in journal or their website tutorial (GMOD), and it seems straight forward for us to believe that it is easy enough to use MAKER for most of the genome out there. However, the reality is there are always some parameters you didn't know the first time or at the very first a few times. In this article, I will summarize the steps that I have learned while I was running my own MAKER genome annotation. 
+MAKER is developed by Yandell's team located in Univ. of Utah. They have written several tutorial articles in journal or their website tutorial (GMOD), and it seems straight forward for us to believe that it is easy enough to use MAKER for most of the genome out there. However, the reality is there are always some parameters you didn't know the first time or at the very first a few times. In this article, I will summarize the steps that I have learned while I was running my own MAKER genome annotation.
 
 ###Step1 - prepare genome documents
 
@@ -33,7 +33,7 @@ You will get three control files into working directory: 1, maker_exe.ctl; 2, ma
 You only need to edit maker_opts.ctl for most of the time.
 
 
-maker_opts.ctl file  
+maker_opts.ctl file
 
 ```sh
 #-----Genome (these are always required)
