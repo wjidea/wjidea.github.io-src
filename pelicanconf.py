@@ -26,7 +26,8 @@ USE_CUSTOM_MENU = True
 CUSTOM_MENUITEMS = [
 			  ('Home', '#'),
 			  ('Blog', 'category/article.html'),
-              ('Contact', 'pages/contact.html')]
+              ('Contact', 'pages/contact.html'),
+              ('Software', 'https://wjidea.github.io/defusion_ori/')]
               #('Research','files/researchStatement.pdf'),
               #('CV','files/CV-Wang_noRef.pdf')]
 
