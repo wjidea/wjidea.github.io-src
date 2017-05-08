@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = u'JW'
 SITENAME = u'bitBio'
 # SITEURL = 'http://wjidea.github.io'
-THEME = '/Users/wjidea/OneDrive/ghpages/theme/pelican-cait'
+THEME = 'theme/pelican-cait'
 PATH = 'content'
 STATIC_PATHS = ['posts', 'files'] # what is this PATH for???
 ARTICLE_PATHS = ['posts']
@@ -27,7 +27,7 @@ CUSTOM_MENUITEMS = [
 			  ('Home', '#'),
 			  ('Blog', 'category/article.html'),
               ('Contact', 'pages/contact.html'),
-              ('Software', 'https://wjidea.github.io/defusion_ori/')]
+              ('Software', 'defusion')]
               #('Research','files/researchStatement.pdf'),
               #('CV','files/CV-Wang_noRef.pdf')]
 
