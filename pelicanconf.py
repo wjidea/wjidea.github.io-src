@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = u'JW'
 SITENAME = u'bitBio'
 # SITEURL = 'http://wjidea.github.io'
-THEME = '/Users/wangj/Documents/OneDrive/ghpages/theme/pelican-cait'
+THEME = 'theme/pelican-cait'
 PATH = 'content'
 STATIC_PATHS = ['posts', 'files'] # what is this PATH for???
 ARTICLE_PATHS = ['posts']
