@@ -1,5 +1,5 @@
 PY?=python
-PELICAN?=pelican
+PELICAN?=/Users/wangj/Library/Python/2.7/bin/pelican
 PELICANOPTS=
 
 BASEDIR=$(CURDIR)
