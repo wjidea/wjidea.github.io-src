@@ -1,10 +1,17 @@
 Title: Publications
 Heading: Publications
-Subheading: Publications (Update: Dec. 2017)
-Template: landing
-save_as: pages/publications.html
+Subheading:(Update: Dec. 2017)
 
 
-
-1. Paper 1
-2. Paper 2
+1.	Zeng, Q.\*, Cui, Z.\*, Wang, J.\*, Childs, K., Sundin, G., Cooley, D., Yang, C., Garofalo, E., Eaton, A., Huntley, R., Yuan, X., Schultes, N. 2017 Comparative genomics of Spiraeoideae-infecting Erwinia amylovora strains revealed higher genetic diversity and suggested an origin of global dispersal Molecular Plant Pathology In press (* co-first author)
+2.	Roth, M. G., Noel, Z. A., Wang, J., Byrne, A. M., Kramer, D. M., Chilvers, M. I. 2017 Assessment and utilization of risk factors in predicting soybean yield and sudden death syndrome development Plant Disease Accepted with revision
+3.	Noel, Z.A., Wang, J. Chilvers, M.I. Submitted Jun 20, 2017. Guidelines for accurate EC50 estimation for fungal and oomycete plant pathogens. Plant Disease in press
+4.	Edger, P., VanBuren, R., Colle, M., Poorten, T., Wai, C., Niederhuth, C., Alger, E., Ou, S., Acharya, C., Wang, J., Callow, P., McKain, M., Shi, J., Collier, C., Xiong, Z., Mower, J., Slovin, J., Hytönen, T., Jiang, N., Childs, K., Knapp, S. 2017 Single-molecule sequencing and optical mapping yields an improved genome of woodland strawberry (Fragaria vesca) with chromosome-scale contiguity GigaScience Accepted with revision
+5.	Zeng, Q\*, Wang, J\*, Bertels, F., Giordano P., Chilvers, M., Huntley, R., Vargas, J., Sundin, G., Jacobs, J., and Yang, Q. 2017 Recombination of Virulence Genes in Divergent Acidovorax avenae Strains That Infect a Common Host. Molecular Plant-Microbe Interactions 30:10 pp. 813-828 (* co-first author)
+6.	Patel, R. R., Sundin, G. W., Yang, C.H., J. Wang, Huntley, R. B., Yuan, X, and Zeng, Q. (2017) Antisense peptide nucleic acid (PNA)-cell penetrating peptide (CPP) causes bactericidal effect in the fire blight pathogen Erwinia amylovora. Frontiers in Microbiology. 8:687. doi: 10.3389/fmicb.2017.00687
+7.	Wang, J., Bradley, C., Stenzel, O., Pedersen, D., Reuter-Carllson, U., and Chilvers, M. I. 2017 Baseline sensitivity of Fusarium virguliforme to fluopyram fungicide, Plant Disease 101:576-582
+8.	Wang, J., and Chilvers, M. I. 2016 Development and characterization of microsatellite markers for Fusarium virguliforme and their utility within clade 2 of the Fusarium solani species complex. Fungal Ecology 20:7-14
+9.	Wang, J., Jacobs, J. L., Byrne, J. M., and Chilvers, M. I. 2015 Improved diagnoses and quantification of Fusarium virguliforme, causal agent of soybean sudden death syndrome. Phytopathology 105(3):378-87
+10.	Kandel, Y.R., Haudenshield, J.S., Srour, A.Y., Islam, K.T., Fakhoury, A.M., Santos, P., Wang, J., Chilvers, M.I., Hartman, G.L., Malvick, D.K. and Floyd, C.M., 2015. Multilaboratory Comparison of Quantitative PCR Assays for Detection and Quantification of Fusarium virguliforme from Soybean Roots and Soil. Phytopathology 105(12), pp.1601-1611.
+11.	Chilvers, M.I., Warner, F.W., Jacobs, J.L. and Wang, J.  2011 Efficacy of nematicide and fungicide seed treatments for soybean cyst nematode and soybean sudden death syndrome in Michigan, Plant Disease Management Reports. Report No. 6:ST003
+12.	Wu Z., Wang J., Xie W., Chen Y., and Wang Z. 2011 Poaceae endophyte research 15: optimization protoplast preparation and regeneration for the Poaceae endophyte Epichloe yanzii, Jiangsu Agric. Sci., 40(2):17-20

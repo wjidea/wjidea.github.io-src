@@ -4,6 +4,8 @@ Tags: Misc
 Slug: Template_draft
 Template: article
 Status: draft
+Date: 01-01-2017
+
 
 
 A friend of mine is going to set up a plant pathology lab soon, and he is planning working with some bioinformatics work over there. I am helping him build a lab server with a reasonable price, which in this case was USD1.5k. I plan to use this opportunity to write a blog to document the whole process to share with the potential community.

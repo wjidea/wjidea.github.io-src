@@ -3,6 +3,7 @@ Category: article
 Tags: R
 Slug: gene features biomart R 
 Template: article
+Date: 11-08-2017
 Status: published
 
 The lengths of gene, transcript, and CDS can be quite different in their lengths.
