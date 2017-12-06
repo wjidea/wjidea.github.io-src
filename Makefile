@@ -1,5 +1,5 @@
 PY?=python
-PELICAN?=/Users/wangj/Library/Python/2.7/bin/pelican
+PELICAN?=pelican
 PELICANOPTS=
 
 BASEDIR=$(CURDIR)
@@ -136,7 +136,7 @@ ifdef NAME
 	echo "Date: $(DATE)" >> $(INPUTDIR)/posts/$(SLUG).$(EXT)
 	echo ""              >> $(INPUTDIR)/posts/$(SLUG).$(EXT)
 	echo ""              >> $(INPUTDIR)/posts/$(SLUG).$(EXT)
-	${EDITOR} ${INPUTDIR}/posts/${SLUG}.${EXT} 
+	${EDITOR} ${INPUTDIR}/posts/${SLUG}.${EXT}
 else
 	@echo 'Variable NAME is not defined.'
 	@echo 'Do make newpost NAME='"'"'Post Name'"'"

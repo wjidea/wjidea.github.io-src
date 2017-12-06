@@ -6,7 +6,7 @@ AUTHOR = u'JW'
 SITENAME = u'bitBio'
 # SITEURL = 'http://wjidea.github.io'
 THEME = 'theme/pelican-cait'
-PATH = 'content'
+PATH = 'content/'
 STATIC_PATHS = ['posts', 'files'] # what is this PATH for???
 ARTICLE_PATHS = ['posts']
 ARTICLE_SAVE_AS = '{date:%Y}/{slug}.html'
@@ -27,7 +27,9 @@ CUSTOM_MENUITEMS = [
 			  ('Home', '#'),
 			  ('Blog', 'category/article.html'),
               ('Contact', 'pages/contact.html'),
-              ('Software', 'defusion')]
+			  ('Publications', 'pages/publications.html'),
+              ('Software', 'defusion')
+              ]
               #('Research','files/researchStatement.pdf'),
               #('CV','files/CV-Wang_noRef.pdf')]
 
